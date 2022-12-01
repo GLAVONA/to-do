@@ -26,28 +26,21 @@
             <div class="projects-div">
                 <button type="button" class="collapse">Projects<br>⌄
                 </button>
-                <ul class="projects-list" style="display: none;">
-                    <a href="">
-                        <div class="li">Project 1</div>
-                    </a>
-                    <a href="">
-                        <div class="li">Project 2</div>
-                    </a>
-                    <a href="">
-                        <div class="li">Project 3</div>
-                    </a>
-                    <a href="">
-                        <div class="li">Project 4</div>
-                    </a>
+                <ul class="projects-list" style="display: flex;">
+                        <div class="project" onclick="this.contentEditable='true';" onblur="this.contentEditable='false';">Project 1</div>
                 </ul>
             </div>
         </div>
         <div class="tasks">
-            <div class="today"><div class="today-header">Today's</div>
-
+            <div class="today-wrapper">
+                <div class="today-header">Today</div>
+                <div class="today">
+                </div>
             </div>
-            <div class="upcoming"><div class="upcoming-header">Upcoming</div>
-
+            <div class="completed-wrapper">
+                <div class="completed-header">Completed</div>
+                <div class="completed">
+                </div>
             </div>
         </div>
         <div class="notes">
