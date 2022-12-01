@@ -3,6 +3,7 @@
     --topleftsidebar-color: #44444C;
     --header-color: #8C8C8C;
     --content-color: #D6D6D6;
+    --notes-color: #FEFAE5;
 }
 
 
@@ -14,9 +15,10 @@ body{
 .main-container{
     display: grid;
     grid-template-columns: 0.2fr 1fr;
-    grid-template-rows: 0.2fr 1fr;
-    width: 100vw;
+    grid-template-rows: 0.1fr 1fr 0.7fr;
+    width: min(100%,50rem);
     height: 100vh;
+    margin: 0 auto;
 }
 
 .header{
@@ -30,20 +32,37 @@ body{
 
 .sidebar{
     grid-column: 1/2;
-    grid-row: 2/3;
+    grid-row: 2/4;
     background-color: var(--sidebar-color);
-    display: grid;
-    grid-template-rows: 0.2fr 1fr;
     box-shadow: 10px 0px 5px -5px gray;
     z-index: 1;
-
+    display: flex;
+    flex-direction: column;
 }
+
+.projects-list{
+    color: white;
+    padding-left: 1vw;
+    padding-right: 1vw;
+    padding-top: 1vw;
+    list-style-type: none;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    gap: 3vw;
+}
+
+.projects-list>a{
+    text-decoration: none;
+    color: white;
+}
+
 
 .top-left-sidebar{
     background-color: var(--topleftsidebar-color);
     display: flex;
     background-image: url(./wave-haikei.svg);
-    background-size: cover;
+    background-size: 100% 120%;
     background-repeat: no-repeat;
     grid-column: 1/2;
     grid-row: 1/2;
@@ -51,13 +70,22 @@ body{
     z-index: 1;
 }
 
-.top-left-sidebar img{
-    max-width: 100%;
-    max-height: 100%;
-}
-
 .content{
     grid-column: 2/3;
     grid-row: 2/3;
     background-color: var(--content-color);
+    padding: 2rem;
+}
+
+.notes{
+    background-color: var(--notes-color);
+    display: flex;
+}
+
+.notes>textarea{
+    flex:1;
+    background-color: var(--notes-color);
+    padding: 2rem;
+    resize: none;
+    z-index: 1;
 }

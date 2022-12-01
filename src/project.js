@@ -1,6 +1,9 @@
+import Note from './notes.js';
+
 export default function Project(name){
     const taskArray = [];
-    return {name, taskArray};
+    const note = Note(name,"");
+    return {name, taskArray,note};
 }
 
 export const addTaskToProject = (task, project)=>{
