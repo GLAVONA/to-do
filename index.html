@@ -12,24 +12,47 @@
         <div class="top-left-sidebar"></div>
         <div class="header"></div>
         <div class="sidebar">
-            <ul class="projects-list">
-                <a href="">
-                    <div class="li">Project 1</div>
-                </a>
-                <a href="">
-                    <div class="li">Project 2</div>
-                </a>
-                <a href="">
-                    <div class="li">Project 3</div>
-                </a>
-                <a href="">
-                    <div class="li">Project 4</div>
-                </a>
-            </ul>
+            <div class="time-period">
+                <div class="today">
+                    <button type="button">Today</button>
+                </div>
+                <div class="this-week">
+                    <button type="button">This Week</button>
+                </div>
+                <div class="this-month">
+                    <button type="button">This Month</button>
+                </div>
+            </div>
+            <div class="projects-div">
+                <button type="button" class="collapse">Projects<br>⌄
+                </button>
+                <ul class="projects-list" style="display: none;">
+                    <a href="">
+                        <div class="li">Project 1</div>
+                    </a>
+                    <a href="">
+                        <div class="li">Project 2</div>
+                    </a>
+                    <a href="">
+                        <div class="li">Project 3</div>
+                    </a>
+                    <a href="">
+                        <div class="li">Project 4</div>
+                    </a>
+                </ul>
+            </div>
         </div>
-        <div class="content"></div>
+        <div class="tasks">
+            <div class="today"><div class="today-header">Today's</div>
+            
+            </div>
+            <div class="upcomming"><div class="upcomming-header">Upcomming</div>
+
+            </div>
+        </div>
         <div class="notes">
-            <textarea name="notes-textarea" id="notes-textarea" cols="1" rows="10"></textarea>
+            <div class="notes-header">Notes</div>
+            <textarea name="notes-textarea" id="notes-textarea" cols="1" rows="10">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Quis commodo odio aenean sed adipiscing diam. Commodo odio aenean sed adipiscing diam donec adipiscing tristique risus. Semper risus in hendrerit gravida rutrum quisque non tellus orci. Scelerisque fermentum dui faucibus in ornare. Lacus sed viverra tellus in hac habitasse platea dictumst vestibulum. Sed sed risus pretium quam. Massa sed elementum tempus egestas sed sed risus pretium quam.</textarea>
         </div>
     </div>    
 </body>
