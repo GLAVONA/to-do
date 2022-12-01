@@ -1,5 +1,5 @@
-export default function Note(project, value) {
-    return{project,value};
+export default function Note(value) {
+    return{value};
 };
 
 export function getNoteValue(){
