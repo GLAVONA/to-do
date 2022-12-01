@@ -89,7 +89,7 @@ body{
     padding-right: 1vw;
     list-style-type: none;
     text-align: center;
-    display: none;
+    display: flex;
     flex-direction: column;
     gap: 2vh;
 }
@@ -98,11 +98,6 @@ br{
     display: block;
     content: "";
     margin-top: -2px;
-}
-
-.projects-list>a{
-    text-decoration: none;
-    color: white;
 }
 
 
@@ -123,14 +118,37 @@ br{
     grid-column: 2/3;
     grid-row: 2/3;
     background-color: var(--tasks-color);
-    padding: 2rem;
+    padding: 1rem;
     display: flex;
-    justify-content: center;
-    gap: 15vw;
+    gap: 1rem;
+}
+
+.today-wrapper{
+    flex:1;
+    padding-top: 1rem;
+}
+
+.completed-wrapper{
+    flex: 1;
+    padding-top: 1rem;
+}
+
+.today-header{
+    text-align: center;
+}
+
+.completed-header{
+    text-align: center;
 }
 
 .tasks>.today{
+    flex: 1;
+    display: flex;
 
+}
+
+.tasks>.completed{
+    flex: 1;
 }
 
 .notes{
