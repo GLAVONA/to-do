@@ -23,14 +23,17 @@ export const moveTaskToAnotherProject = (task, oldProject, newProject)=>{
 
 
 export function createNewProject(){
+    const lastProjectNameNumber = 1;
+    if(projectArray.length>0){
     const lastProjectNameNumber = projectArray[projectArray.length-1].name.match(/[Pp]roject (\d*)/)[1];
+    }
     const newProject = Project(`Project ${lastProjectNameNumber}`);
     console.log(lastProjectNameNumber)
 
+    if(projectArray.length>0){
     if(newProject.name === projectArray[projectArray.length-1].name){
-        console.log("triggered!");
         newProject.name = `Project ${parseInt(lastProjectNameNumber)+1}`;
-    }
+    }}
     projectArray.push(newProject);
     return newProject;
 }

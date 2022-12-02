@@ -2,9 +2,13 @@ import datefns, { endOfMonth, endOfToday } from 'date-fns';
 import './style.css';
 import Project, { addTaskToProject, createNewProject, projectArray, removeTaskFromProject } from './project.js';
 import Task, { checkTask } from './task.js';
+import Note from './notes.js'
 
 const projectCollapsible = document.querySelector(".projects-collapse");
-projectCollapsible.addEventListener("click",toggleProjects)
+projectCollapsible.addEventListener("click",toggleProjects);
+
+const delButton = document.querySelector(".project-wrapper>button")
+
 
 
 const projectList = document.querySelector(".projects-list");
@@ -39,6 +43,12 @@ function renderProjects(){
         deleteButton.addEventListener("click",()=>{
             projectArray.splice(deleteButton.parentElement.id,1);
             deleteButton.parentElement.remove();
+            if(projectArray.length<1)
+            {
+                createNewProject();
+                renderProjects()
+            }
+
         })
 
         projectWrapper.appendChild(projectDiv);
@@ -52,8 +62,8 @@ function renderProjects(){
         newProj.id=id;
         id++;
     })
-    console.log(projectArray);
 }
+
 
 function clearProjectList(){
     projectList.innerHTML="";
