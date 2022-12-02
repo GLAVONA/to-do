@@ -65,7 +65,6 @@ function renderProjectsList(){
             else{
                 projectDiv.value = projectArray[event.target.parentElement.id].name;
             }
-            console.log(projectDiv.value);
             projectDiv.readOnly=true;
             projectDiv.classList.remove("editable");
             updateLocalStorage();
@@ -137,10 +136,16 @@ const projectDivs = document.querySelectorAll(".project");
 projectDivs.forEach(proj=>proj.addEventListener("click",(e)=>{
     currentIndex = parseInt(e.target.parentElement.id);
     currentProject = projectArray[currentIndex];
+    projectDivs.forEach(proj=>proj.classList.remove("active"));
+    proj.classList.add("active");
     renderProject();
 }))
 
 // Render notes and tasks of the selected project
 function renderProject (){
     notesAreaDiv.value = currentProject.note;
+}
+
+function selectProject(){
+
 }

@@ -103,6 +103,7 @@ body{
     gap:.2rem;
     align-items: center;
     justify-content: center;
+    height: 19px;
 }
 
 .project{
@@ -121,6 +122,9 @@ body{
     outline: 1px solid white;
 }
 
+.project.active{
+    border: 1px solid white;
+}
 
 .project-wrapper>button{
     margin-left: 2px;
