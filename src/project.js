@@ -1,10 +1,8 @@
-import Note from './notes.js';
-
-export const projectArray = [{name: "Project 1", taskArray: [], note: Note("")}];
+export const projectArray = [{name: "Project 1", taskArray: [], note: ""}];
 
 export default function Project(name){
     const taskArray = [];
-    const note = Note("");
+    const note = "";
     return {name, taskArray, note};
 }
 

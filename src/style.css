@@ -163,6 +163,7 @@ br{
 .completed-wrapper{
     flex: 0.5;
     padding-top: 1rem;
+    border-left: 1px solid var(--sidebar-color);
 }
 
 .today-header{

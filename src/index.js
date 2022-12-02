@@ -2,18 +2,20 @@ import datefns, { endOfMonth, endOfToday } from 'date-fns';
 import './style.css';
 import Project, { addTaskToProject, createNewProject, projectArray, removeTaskFromProject } from './project.js';
 import Task, { checkTask } from './task.js';
-import Note from './notes.js'
 
 const projectCollapsible = document.querySelector(".projects-collapse");
 projectCollapsible.addEventListener("click",toggleProjects);
 
-const delButton = document.querySelector(".project-wrapper>button")
+let currentProject = projectArray[0];
 
+const notesAreaDiv = document.getElementById("notes-textarea");
+notesAreaDiv.addEventListener("input",()=>{
+    currentProject.note = notesAreaDiv.value;
+})
 
 
 const projectList = document.querySelector(".projects-list");
-const projectWrapper = document.querySelector(".project-wrapper");
-const addProjectButton = document.querySelector(".add-project")
+const addProjectButton = document.querySelector(".add-project");
 
 function toggleProjects(){
     projectList.style.display = projectList.style.display == "flex"? "none" : "flex";
@@ -21,9 +23,9 @@ function toggleProjects(){
     addProjectButton.style.display = addProjectButton.style.display == "flex"? "none" : "flex";
 }
 
-renderProjects();
+renderProjectsList();
 
-function renderProjects(){
+function renderProjectsList(){
 
     function constructProjectDiv(project){
         const projectWrapper = document.createElement("div");
@@ -47,29 +49,33 @@ function renderProjects(){
             const index = Array.from(projectWrapper.parentElement.children).indexOf(projectWrapper);
             projectArray.splice(index,1);
             deleteButton.parentElement.remove();
+            if(projectArray.length<1){
+                createNewProject();
+                renderProjectsList()
+            }
+            clearProjectsList();
+            renderProjectsList();
         })
-
+        
         projectWrapper.appendChild(projectDiv);
         projectWrapper.appendChild(deleteButton);
         return projectWrapper;
     }
-    let id = 0;
     projectArray.forEach((proj)=>{
         const newProj = constructProjectDiv(proj);
+        newProj.id=projectArray.indexOf(proj);
         projectList.appendChild(newProj);
-        newProj.id=id;
-        id++;
     })
 }
 
 
-function clearProjectList(){
+function clearProjectsList(){
     projectList.innerHTML="";
 }
 
 
 addProjectButton.addEventListener("click",()=>{
-    clearProjectList();
+    clearProjectsList();
     createNewProject();
-    renderProjects()
+    renderProjectsList()
 })
