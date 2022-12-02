@@ -24,9 +24,11 @@ function toggleProjects(){
 renderProjects();
 
 function renderProjects(){
+
     function constructProjectDiv(project){
         const projectWrapper = document.createElement("div");
         projectWrapper.classList.add("project-wrapper");
+
 
         const projectDiv = document.createElement("div");
         projectDiv.classList.add("project");
@@ -36,19 +38,15 @@ function renderProjects(){
             projectArray[event.target.parentElement.id].name = projectDiv.textContent;
         })
         projectDiv.textContent = project.name;
+
         
         const deleteButton = document.createElement("button");
         deleteButton.setAttribute("type","button");
         deleteButton.textContent = "X";
         deleteButton.addEventListener("click",()=>{
-            projectArray.splice(deleteButton.parentElement.id,1);
+            const index = Array.from(projectWrapper.parentElement.children).indexOf(projectWrapper);
+            projectArray.splice(index,1);
             deleteButton.parentElement.remove();
-            if(projectArray.length<1)
-            {
-                createNewProject();
-                renderProjects()
-            }
-
         })
 
         projectWrapper.appendChild(projectDiv);
