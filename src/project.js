@@ -1,6 +1,6 @@
 import Note from './notes.js';
 
-export const projectArray = [];
+export const projectArray = [{name: "Project 1", taskArray: [], note: Note("")}];
 
 export default function Project(name){
     const taskArray = [];
@@ -23,8 +23,14 @@ export const moveTaskToAnotherProject = (task, oldProject, newProject)=>{
 
 
 export function createNewProject(){
-    const nextProjectNumber = document.querySelector(".projects-list").childElementCount+1;
-    const newProject = Project(`Project ${projectArray.length+1}`);
+    const lastProjectNameNumber = projectArray[projectArray.length-1].name.match(/[Pp]roject (\d*)/)[1];
+    const newProject = Project(`Project ${lastProjectNameNumber}`);
+    console.log(lastProjectNameNumber)
+
+    if(newProject.name === projectArray[projectArray.length-1].name){
+        console.log("triggered!");
+        newProject.name = `Project ${parseInt(lastProjectNameNumber)+1}`;
+    }
     projectArray.push(newProject);
     return newProject;
 }

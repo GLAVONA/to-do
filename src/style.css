@@ -15,7 +15,7 @@ body{
 
 .main-container{
     display: grid;
-    grid-template-columns: 0.2fr 1fr;
+    grid-template-columns: 0.3fr 1fr;
     grid-template-rows: 0.1fr 1fr 0.7fr;
     width: min(100%,50rem);
     height: 100vh;

@@ -17,26 +17,28 @@ function toggleProjects(){
     addProjectButton.style.display = addProjectButton.style.display == "flex"? "none" : "flex";
 }
 
-
+renderProjects();
 
 function renderProjects(){
     function constructProjectDiv(project){
         const projectWrapper = document.createElement("div");
         projectWrapper.classList.add("project-wrapper");
-        projectWrapper.id = "0";
 
         const projectDiv = document.createElement("div");
         projectDiv.classList.add("project");
         projectDiv.setAttribute("onclick","this.contentEditable='true'");
         projectDiv.setAttribute("onblur", "this.contentEditable='false'");
+        projectDiv.addEventListener("blur",()=>{
+            projectArray[event.target.parentElement.id].name = projectDiv.textContent;
+        })
         projectDiv.textContent = project.name;
         
         const deleteButton = document.createElement("button");
         deleteButton.setAttribute("type","button");
         deleteButton.textContent = "X";
         deleteButton.addEventListener("click",()=>{
+            projectArray.splice(deleteButton.parentElement.id,1);
             deleteButton.parentElement.remove();
-            projectArray.splice(projectArray.indexOf(deleteButton.parentElement.id, 1));
         })
 
         projectWrapper.appendChild(projectDiv);
@@ -59,7 +61,7 @@ function clearProjectList(){
 
 
 addProjectButton.addEventListener("click",()=>{
-    createNewProject();
     clearProjectList();
+    createNewProject();
     renderProjects()
 })
