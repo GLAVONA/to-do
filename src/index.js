@@ -1,30 +1,50 @@
 import datefns, { endOfMonth, endOfToday } from 'date-fns';
 import './style.css';
-import Project, { addTaskToProject, createNewProject, projectArray, removeTaskFromProject } from './project.js';
+import Project, { addTaskToProject, createNewProject, projectArray, removeTaskFromProject, updateLocalStorage, updateProjectArray } from './project.js';
 import Task, { checkTask } from './task.js';
+import editIcon from './edit.png';
 
-const projectCollapsible = document.querySelector(".projects-collapse");
-projectCollapsible.addEventListener("click",toggleProjects);
-
-let currentProject = projectArray[0];
-
-const notesAreaDiv = document.getElementById("notes-textarea");
-notesAreaDiv.addEventListener("input",()=>{
-    currentProject.note = notesAreaDiv.value;
-})
-
-
+// Declare the Projectlist Div and "Add Project" button.
 const projectList = document.querySelector(".projects-list");
 const addProjectButton = document.querySelector(".add-project");
 
+// Declare the collapsible "Projects" div and add a listener that toggles the projects underneath the Projects collapsible.
+const projectCollapsible = document.querySelector(".projects-collapse");
+projectCollapsible.addEventListener("click",toggleProjects);
+
+updateProjectArray();
+
+// Current active project
+let currentIndex = 0;
+let currentProject = projectArray[currentIndex];
+
+// Sets the Currentproject's note variable to the input of the user in the notes textarea.
+const notesAreaDiv = document.getElementById("notes-textarea");
+notesAreaDiv.addEventListener("input",()=>{
+    currentProject.note = notesAreaDiv.value;
+    projectArray[currentIndex].note = currentProject.note;
+    updateLocalStorage();
+})
+
+
+// Renders the projects list for the first time.
+updateProjectArray();
+renderProject();
+
+// Toggles projects underneath the Projects collapsible.
 function toggleProjects(){
     projectList.style.display = projectList.style.display == "flex"? "none" : "flex";
     projectList.style.display == "flex"? projectCollapsible.innerHTML = "Projects<br>⌄" : projectCollapsible.innerHTML = "Projects<br>-";
     addProjectButton.style.display = addProjectButton.style.display == "flex"? "none" : "flex";
 }
 
+// Renders the projects list for the first time.
+updateProjectArray();
 renderProjectsList();
+renderProject();
 
+
+// Renders the projects list and delete buttons, and handles logic.
 function renderProjectsList(){
 
     function constructProjectDiv(project){
@@ -32,14 +52,38 @@ function renderProjectsList(){
         projectWrapper.classList.add("project-wrapper");
 
 
-        const projectDiv = document.createElement("div");
+        const projectDiv = document.createElement("input");
         projectDiv.classList.add("project");
-        projectDiv.setAttribute("onclick","this.contentEditable='true'");
+        projectDiv.readOnly = true;
         projectDiv.setAttribute("onblur", "this.contentEditable='false'");
+        projectDiv.setAttribute("maxlength",15);
+
         projectDiv.addEventListener("blur",()=>{
-            projectArray[event.target.parentElement.id].name = projectDiv.textContent;
+            if(projectDiv.value!=""){
+            projectArray[event.target.parentElement.id].name = projectDiv.value;
+            }
+            else{
+                projectDiv.value = projectArray[event.target.parentElement.id].name;
+            }
+            console.log(projectDiv.value);
+            projectDiv.readOnly=true;
+            projectDiv.classList.remove("editable");
+            updateLocalStorage();
+            updateProjectArray();
         })
-        projectDiv.textContent = project.name;
+        projectDiv.setAttribute("onblur", "this.contentEditable='false'");
+        projectDiv.value = project.name;
+
+        const editButton = document.createElement("img");
+        editButton.classList.add("edit-button");
+        editButton.src = editIcon;
+        editButton.addEventListener("click",()=>{
+            projectDiv.readOnly = false;
+            projectDiv.classList.add("editable");
+            projectDiv.focus();
+            projectDiv.select();  
+        })
+
 
         
         const deleteButton = document.createElement("button");
@@ -55,9 +99,11 @@ function renderProjectsList(){
             }
             clearProjectsList();
             renderProjectsList();
+            updateLocalStorage();
         })
         
         projectWrapper.appendChild(projectDiv);
+        projectWrapper.appendChild(editButton);
         projectWrapper.appendChild(deleteButton);
         return projectWrapper;
     }
@@ -68,14 +114,33 @@ function renderProjectsList(){
     })
 }
 
-
+// Resets the Projects List html (clears it)
 function clearProjectsList(){
     projectList.innerHTML="";
 }
 
 
+updateProjectArray();
+
+
+// Add new project eventlistener
 addProjectButton.addEventListener("click",()=>{
     clearProjectsList();
     createNewProject();
     renderProjectsList()
+    updateLocalStorage();
 })
+
+
+const projectDivs = document.querySelectorAll(".project");
+
+projectDivs.forEach(proj=>proj.addEventListener("click",(e)=>{
+    currentIndex = parseInt(e.target.parentElement.id);
+    currentProject = projectArray[currentIndex];
+    renderProject();
+}))
+
+// Render notes and tasks of the selected project
+function renderProject (){
+    notesAreaDiv.value = currentProject.note;
+}

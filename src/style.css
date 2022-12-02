@@ -100,7 +100,7 @@ body{
 
 .project-wrapper{
     display: flex;
-    gap:1rem;
+    gap:.2rem;
     align-items: center;
     justify-content: center;
 }
@@ -108,7 +108,19 @@ body{
 .project{
     cursor: pointer;
     margin-left: 0.1rem;
+    background-color: var(--sidebar-color);
+    color: white;
+    border: none;
+    text-align: center;
+    justify-content: center;
+    width: 100%;
+    outline: none;
 }
+
+.project.editable:focus{
+    outline: 1px solid white;
+}
+
 
 .project-wrapper>button{
     margin-left: 2px;
@@ -117,6 +129,18 @@ body{
     cursor: pointer;
     background-color:var(--tasks-color);
     border: none;
+    width: 15px;
+    height: 15px;
+    flex:0;
+}
+
+.project-wrapper>.edit-button{
+    flex:0;
+    width: 15px;
+    height: 15px;
+    margin-left: 0.5rem;
+    margin-right: 0.2rem;
+    cursor: pointer;
 }
 
 .add-project{
