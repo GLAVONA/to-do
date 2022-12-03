@@ -56,7 +56,7 @@ function renderProjectsList(){
         projectDiv.classList.add("project");
         projectDiv.readOnly = true;
         projectDiv.setAttribute("onblur", "this.contentEditable='false'");
-        projectDiv.setAttribute("maxlength",15);
+        projectDiv.setAttribute("maxlength",13);
 
         projectDiv.addEventListener("blur",()=>{
             if(projectDiv.value!=""){
