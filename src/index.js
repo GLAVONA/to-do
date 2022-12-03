@@ -26,7 +26,7 @@ notesAreaDiv.addEventListener("input",()=>{
     updateLocalStorage();
 })
 
-renderProject();
+
 
 
 // Renders the projects list for the first time.
@@ -121,7 +121,7 @@ function clearProjectsList(){
 
 
 updateProjectArray();
-
+renderProject();
 
 // Add new project eventlistener
 addProjectButton.addEventListener("click",()=>{
