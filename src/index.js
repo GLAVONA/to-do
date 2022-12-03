@@ -26,10 +26,11 @@ notesAreaDiv.addEventListener("input",()=>{
     updateLocalStorage();
 })
 
+renderProject();
+
 
 // Renders the projects list for the first time.
 updateProjectArray();
-renderProject();
 
 // Toggles projects underneath the Projects collapsible.
 function toggleProjects(){
