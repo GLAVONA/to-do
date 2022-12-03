@@ -42,7 +42,6 @@ function toggleProjects(){
 // Renders the projects list for the first time.
 updateProjectArray();
 renderProjectsList();
-renderProject();
 
 
 // Renders the projects list and delete buttons, and handles logic.
