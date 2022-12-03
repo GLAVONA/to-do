@@ -42,7 +42,7 @@ function toggleProjects(){
 // Renders the projects list for the first time.
 updateProjectArray();
 renderProjectsList();
-
+renderProject();
 
 // Renders the projects list and delete buttons, and handles logic.
 function renderProjectsList(){
@@ -120,7 +120,6 @@ function clearProjectsList(){
 
 
 updateProjectArray();
-renderProject();
 
 // Add new project eventlistener
 addProjectButton.addEventListener("click",()=>{
@@ -142,7 +141,7 @@ projectDivs.forEach(proj=>proj.addEventListener("click",(e)=>{
 }))
 
 // Render notes and tasks of the selected project
-function renderProject (){
+function renderProject(){
     notesAreaDiv.value = currentProject.note;
 }
 

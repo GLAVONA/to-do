@@ -6,7 +6,6 @@ module.exports = {
   output: {
     filename: 'main.js',
     path: path.resolve(__dirname, 'dist'),
-    publicPath: "/to-do/",
   },
   devtool: 'inline-source-map',
   module: {
@@ -18,7 +17,7 @@ module.exports = {
       {
         test: /\.(png|svg|jpg|jpeg|gif)$/i,
         type: 'asset/resource',
-      },
+    },
     ],
   },
 };
