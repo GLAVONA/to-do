@@ -95,6 +95,7 @@ function renderProjectsList(){
             if(projectArray.length<1){
                 createNewProject();
                 renderProjectsList()
+                notesAreaDiv.value = "";
             }
             clearProjectsList();
             renderProjectsList();
@@ -111,6 +112,16 @@ function renderProjectsList(){
         newProj.id=projectArray.indexOf(proj);
         projectList.appendChild(newProj);
     })
+
+    const projectDivs = document.querySelectorAll(".project");
+
+projectDivs.forEach(proj=>proj.addEventListener("click",(e)=>{
+    currentIndex = parseInt(e.target.parentElement.id);
+    currentProject = projectArray[currentIndex];
+    projectDivs.forEach(proj=>proj.classList.remove("active"));
+    proj.classList.add("active");
+    renderProject();
+}))
 }
 
 // Resets the Projects List html (clears it)
@@ -130,15 +141,7 @@ addProjectButton.addEventListener("click",()=>{
 })
 
 
-const projectDivs = document.querySelectorAll(".project");
 
-projectDivs.forEach(proj=>proj.addEventListener("click",(e)=>{
-    currentIndex = parseInt(e.target.parentElement.id);
-    currentProject = projectArray[currentIndex];
-    projectDivs.forEach(proj=>proj.classList.remove("active"));
-    proj.classList.add("active");
-    renderProject();
-}))
 
 // Render notes and tasks of the selected project
 function renderProject(){
