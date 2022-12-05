@@ -1,4 +1,4 @@
-:root{
+:root {
     --sidebar-color: #0B0909;
     --topleftsidebar-color: #44444C;
     --header-color: #8C8C8C;
@@ -8,21 +8,21 @@
 }
 
 
-body{
+body {
     margin: 0;
     padding: 0;
 }
 
-.main-container{
+.main-container {
     display: grid;
-    grid-template-columns: 0.3fr 1fr;
+    grid-template-columns: 0.2fr 1fr;
     grid-template-rows: 0.1fr 1fr 0.7fr;
-    width: min(100%,50rem);
+    width: min(100%, 70rem);
     height: 100vh;
     margin: 0 auto;
 }
 
-.header{
+.header {
     grid-column: 2/3;
     grid-row: 1/2;
     background-color: var(--header-color);
@@ -31,7 +31,7 @@ body{
 }
 
 
-.sidebar{
+.sidebar {
     grid-column: 1/2;
     grid-row: 2/4;
     background-color: var(--sidebar-color);
@@ -42,14 +42,14 @@ body{
 }
 
 
-.time-period{
+.time-period {
     flex: 0.05 1 auto;
     display: flex;
     flex-direction: column;
     align-items: center;
 }
 
-.time-period>*>button{
+.time-period>*>button {
     background-color: var(--sidebar-color);
     border: 1px solid white;
     color: var(--tasks-color);
@@ -61,19 +61,19 @@ body{
     cursor: pointer;
     align-items: center;
     justify-content: center;
-    display:flex
+    display: flex
 }
 
 
-.projects-div{
+.projects-div {
     display: flex;
     flex-direction: column;
-    flex:1;
+    flex: 1;
     align-items: center;
 }
 
 
-.projects-collapse{
+.projects-collapse {
     background-color: var(--sidebar-color);
     border: 1px solid white;
     color: var(--tasks-color);
@@ -87,7 +87,7 @@ body{
 
 }
 
-.projects-list{
+.projects-list {
     color: white;
     padding-left: 1vw;
     padding-right: 1vw;
@@ -98,15 +98,15 @@ body{
     gap: 2vh;
 }
 
-.project-wrapper{
+.project-wrapper {
     display: flex;
-    gap:.2rem;
+    gap: .2rem;
     align-items: center;
     justify-content: center;
     height: 19px;
 }
 
-.project{
+.project {
     cursor: pointer;
     margin-left: 0.1rem;
     background-color: var(--sidebar-color);
@@ -118,28 +118,28 @@ body{
     outline: none;
 }
 
-.project.editable:focus{
+.project.editable:focus {
     outline: 1px solid white;
 }
 
-.project.active{
+.project.active {
     border: 1px solid white;
 }
 
-.project-wrapper>button{
+.project-wrapper>button {
     margin-left: 2px;
     padding: 4px;
     font-size: 8px;
     cursor: pointer;
-    background-color:var(--tasks-color);
+    background-color: var(--tasks-color);
     border: none;
     width: 15px;
     height: 15px;
-    flex:0;
+    flex: 0;
 }
 
-.project-wrapper>.edit-button{
-    flex:0;
+.project-wrapper>.edit-button {
+    flex: 0;
     width: 15px;
     height: 15px;
     margin-left: 0.5rem;
@@ -147,21 +147,21 @@ body{
     cursor: pointer;
 }
 
-.add-project{
-    display:flex;
+.add-project {
+    display: flex;
     justify-content: center;
     cursor: pointer;
     width: 6rem;
 }
 
-br{
+br {
     display: block;
     content: "";
     margin-top: -2px;
 }
 
 
-.top-left-sidebar{
+.top-left-sidebar {
     background-color: var(--topleftsidebar-color);
     display: flex;
     background-image: url(./wave-haikei.svg);
@@ -174,7 +174,7 @@ br{
     z-index: 1;
 }
 
-.tasks{
+.tasks {
     grid-column: 2/3;
     grid-row: 2/3;
     background-color: var(--tasks-color);
@@ -183,57 +183,59 @@ br{
     gap: 1rem;
 }
 
-.today-wrapper{
-    flex:1;
+.today-wrapper {
+    flex: 1;
     padding-top: 1rem;
 }
 
-.completed-wrapper{
+.completed-wrapper {
     flex: 0.5;
     padding-top: 1rem;
     border-left: 1px solid var(--sidebar-color);
 }
 
-.today-header{
+.today-header {
     text-align: center;
 }
 
-.completed-header{
+.completed-header {
     text-align: center;
 }
 
-.tasks>.today{
+.tasks>.today {
     flex: 1;
     display: flex;
 
 }
 
-.tasks>.completed{
+.tasks>.completed {
     flex: 1;
 }
 
-.notes{
+.notes {
     background-color: var(--notes-color);
     display: flex;
     flex-direction: column;
     background: url(notebook-edit.png) repeat-y;
+    background-size: 110% auto;
     z-index: 1;
     text-align: center;
 }
 
-.notes>.notes-header{
+.notes>.notes-header {
     font-size: 20px;
-    font-weight: bold
+    font-weight: bold;
 }
 
-.notes>textarea{
-    flex:1;
+.notes>textarea {
+    flex: 1;
     padding: 2px 10px;
     resize: none;
     z-index: 1;
     background: url(notebook-edit.png) repeat-y;
     font: normal 17px verdana;
     line-height: 25px;
+    background-size: 110% auto;
     border: none;
-    outline:none;
+    outline: none;
 }
