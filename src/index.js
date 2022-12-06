@@ -28,8 +28,6 @@ notesAreaDiv.addEventListener("input", () => {
 
 let projectDivs = document.querySelectorAll(".project");
 
-
-
 // Renders the projects list for the first time.
 updateProjectArray();
 
@@ -46,7 +44,6 @@ renderProjectsList();
 renderProject();
 
 let selectedProject = "";
-
 
 // Renders the projects list and delete buttons, and handles logic.
 function renderProjectsList() {
@@ -88,8 +85,6 @@ function renderProjectsList() {
             projectDiv.select();
         })
 
-
-
         const deleteButton = document.createElement("button");
         deleteButton.setAttribute("type", "button");
         deleteButton.textContent = "X";
@@ -104,13 +99,12 @@ function renderProjectsList() {
             }
             updateLocalStorage();
         })
-
-
         projectWrapper.appendChild(projectDiv);
         projectWrapper.appendChild(editButton);
         projectWrapper.appendChild(deleteButton);
         return projectWrapper;
     }
+
     projectArray.forEach((proj) => {
         const newProj = constructProjectDiv(proj);
         projectList.appendChild(newProj);
@@ -118,10 +112,8 @@ function renderProjectsList() {
 
     projectDivs = document.querySelectorAll(".project");
     projectDivs.forEach(proj => proj.addEventListener("click", () => {
-        switchCurrentProject( proj);
+        switchCurrentProject(proj);
     }))
-    switchCurrentProject(document.querySelector(".projects-list").lastChild.firstChild);
-
 }
 
 // Resets the Projects List html (clears it)
@@ -136,20 +128,16 @@ addProjectButton.addEventListener("click", () => {
     clearProjectsList();
     currentProject = createNewProject();
     renderProjectsList()
-    switchCurrentProject(document.querySelector(".projects-list").lastChild.firstChild);
-    console.log(document.querySelector(".projects-list").lastChild);
+    switchCurrentProject(projectList.lastChild.firstChild);
     updateLocalStorage();
 })
-
-
-
 
 // Render notes and tasks of the selected project
 function renderProject() {
     notesAreaDiv.value = currentProject.note;
 }
 
-function switchCurrentProject( proj) {
+function switchCurrentProject(proj) {
     currentIndex = Array.from(proj.parentElement.parentElement.children).indexOf(proj.parentElement);
     currentProject = projectArray[currentIndex];
     projectDivs.forEach(proj => proj.classList.remove("active"));
