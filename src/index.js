@@ -120,6 +120,8 @@ function renderProjectsList() {
     projectDivs.forEach(proj => proj.addEventListener("click", () => {
         switchCurrentProject( proj);
     }))
+    switchCurrentProject(document.querySelector(".projects-list").lastChild.firstChild);
+
 }
 
 // Resets the Projects List html (clears it)
