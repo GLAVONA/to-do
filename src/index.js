@@ -105,7 +105,7 @@ function renderProjectsList() {
         projectWrapper.appendChild(deleteButton);
         return projectWrapper;
     }
-    if(projectList.childElementCount<2){
+    if(projectArray.length<1){
         constructProjectDiv(createNewProject());
     }
 
