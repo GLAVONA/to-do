@@ -99,12 +99,15 @@ function renderProjectsList() {
             }
             updateLocalStorage();
         })
+        updateLocalStorage();
         projectWrapper.appendChild(projectDiv);
         projectWrapper.appendChild(editButton);
         projectWrapper.appendChild(deleteButton);
         return projectWrapper;
     }
-    console.log(projectArray);
+    if(projectList.childElementCount<2){
+        constructProjectDiv(createNewProject());
+    }
 
     projectArray.forEach((proj) => {
         const newProj = constructProjectDiv(proj);
