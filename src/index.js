@@ -97,6 +97,9 @@ function renderProjectsList() {
                 notesAreaDiv.value = "";
                 renderProjectsList();
             }
+            if (projectArray.length==1){
+                switchCurrentProject(projectList.lastChild.firstChild);
+            }
             updateLocalStorage();
         })
         updateLocalStorage();
