@@ -104,6 +104,7 @@ function renderProjectsList() {
         projectWrapper.appendChild(deleteButton);
         return projectWrapper;
     }
+    console.log(projectArray);
 
     projectArray.forEach((proj) => {
         const newProj = constructProjectDiv(proj);
@@ -114,6 +115,7 @@ function renderProjectsList() {
     projectDivs.forEach(proj => proj.addEventListener("click", () => {
         switchCurrentProject(proj);
     }))
+    switchCurrentProject(projectList.lastChild.firstChild);
 }
 
 // Resets the Projects List html (clears it)
