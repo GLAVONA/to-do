@@ -1,7 +1,7 @@
 import datefns, { endOfMonth, endOfToday } from 'date-fns';
 import './style.css';
 import Project, { addTaskToProject, createNewProject, projectArray, removeTaskFromProject, updateLocalStorage, updateProjectArray } from './project.js';
-import Task, { checkTask } from './task.js';
+import Task, { checkTask, createNewTask } from './task.js';
 import editIcon from './edit.png';
 
 // Declare the Projectlist Div and "Add Project" button.
@@ -15,8 +15,8 @@ projectCollapsible.addEventListener("click", toggleProjects);
 updateProjectArray();
 
 // Current active project
-let currentIndex = 0;
-let currentProject = projectArray[currentIndex];
+export let currentIndex = 0;
+export let currentProject = projectArray[currentIndex];
 
 // Sets the Currentproject's note variable to the input of the user in the notes textarea.
 const notesAreaDiv = document.getElementById("notes-textarea");
@@ -97,7 +97,7 @@ function renderProjectsList() {
                 notesAreaDiv.value = "";
                 renderProjectsList();
             }
-            if (projectArray.length==1){
+            if (projectArray.length == 1) {
                 switchCurrentProject(projectList.lastChild.firstChild);
             }
             updateLocalStorage();
@@ -108,7 +108,7 @@ function renderProjectsList() {
         projectWrapper.appendChild(deleteButton);
         return projectWrapper;
     }
-    if(projectArray.length<1){
+    if (projectArray.length < 1) {
         constructProjectDiv(createNewProject());
     }
 
@@ -151,4 +151,16 @@ function switchCurrentProject(proj) {
     projectDivs.forEach(proj => proj.classList.remove("active"));
     proj.classList.add("active");
     renderProject();
+}
+
+const newTaskButton = document.querySelector(".today > .new-task-button");
+
+newTaskButton.addEventListener("click",()=>{
+    createNewTask();
+    console.log(projectArray);
+    updateLocalStorage();
+})
+
+function renderTasks(){
+    
 }
