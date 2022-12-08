@@ -1,4 +1,5 @@
 export let projectArray = [];
+export let completedArray = [];
 
 export default function Project(name) {
     const taskArray = [];

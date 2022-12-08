@@ -6,12 +6,17 @@ export default function Task(name, description, dueDate, priority, completed) {
     return { name, description, dueDate, priority, completed }
 }
 
-export const checkTask = (task) => {
-    return task.completed = true;
+export function markTaskComplete(e){
+    const index = Array.from(e.parentElement.parentElement.children).indexOf(e.parentElement);
+    Index.currentProject.taskArray[index].completed = true;
+    Project.updateLocalStorage();
 }
 
-export const uncheckTask = (task) => {
-    return task.completed = false;
+export function unmarkTaskComplete(e){
+    const index = Array.from(e.parentElement.parentElement.children).indexOf(e.parentElement);
+    console.log(index);
+    Index.currentProject.taskArray[index].completed = false;
+    Project.updateLocalStorage();
 }
 
 export function createNewTask(){

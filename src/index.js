@@ -1,7 +1,7 @@
 import datefns, { endOfMonth, endOfToday, endOfTomorrow, endOfWeek, startOfWeek } from 'date-fns';
 import './style.css';
 import Project, { addTaskToProject, createNewProject, projectArray, removeTaskFromProject, updateLocalStorage, updateProjectArray } from './project.js';
-import Task, { checkTask, createNewTask } from './task.js';
+import Task, { checkTask, createNewTask, markTaskComplete, unmarkTaskComplete } from './task.js';
 import editIcon from './edit.png';
 import { isTomorrow } from 'date-fns/esm';
 import { deAT } from 'date-fns/locale';
@@ -16,6 +16,7 @@ const projectCollapsible = document.querySelector(".projects-collapse");
 projectCollapsible.addEventListener("click", toggleProjects);
 
 const todayDiv = document.querySelector(".task-list-content");
+const completedDiv = document.querySelector(".completed-wrapper > .completed");
 
 
 // Current active project
@@ -168,8 +169,6 @@ newTaskButton.addEventListener("click", () => {
     updateLocalStorage();
     clearTasks();
     renderTasks();
-    console.log(projectArray);
-
 })
 
 
@@ -192,6 +191,12 @@ function createTaskDiv(name, description, dueDate) {
     const completeButton = document.createElement("button");
     completeButton.classList.add("complete-button");
     completeButton.textContent = "Complete";
+    completeButton.addEventListener("click",()=>{
+        markTaskComplete(completeButton);
+        console.log(currentProject.taskArray);
+        clearTasks();
+        renderTasks();
+    })
     const taskDeleteButton = document.createElement("button");
     taskDeleteButton.classList.add("delete-task-button");
     taskDeleteButton.textContent = "Delete";
@@ -205,20 +210,54 @@ function createTaskDiv(name, description, dueDate) {
     return taskWrapperDiv;
 }
 
+
+function createCompletedDiv(name) {
+
+    const taskWrapperDiv = document.createElement("div");
+    taskWrapperDiv.classList.add("completed-task-wrapper");
+    const taskNameDiv = document.createElement("div");
+    taskNameDiv.classList.add("completed-task-name");
+    taskNameDiv.textContent = name;
+    const uncompleteButton = document.createElement("button");
+    uncompleteButton.classList.add("completed-complete-button");
+    uncompleteButton.textContent = "Complete";
+    uncompleteButton.addEventListener("click",()=>{
+        unmarkTaskComplete(uncompleteButton);        
+        clearTasks();
+        renderTasks();
+    })
+    const taskDeleteButton = document.createElement("button");
+    taskDeleteButton.classList.add("completed-delete-task-button");
+    taskDeleteButton.textContent = "Delete";
+    
+    taskWrapperDiv.appendChild(taskNameDiv);
+    taskWrapperDiv.appendChild(uncompleteButton);
+    taskWrapperDiv.appendChild(taskDeleteButton);
+
+    return taskWrapperDiv;
+}
+
+
 function clearTasks() {
     todayDiv.innerHTML = "";
+    completedDiv.innerHTML="";
 }
 
 function renderTasks() {
     if (currentProject.taskArray.length < 1) {
-        currentProject.taskArray.push(createNewTask());
+        const newTask = createNewTask();
+        newTask.name = "New Task"
+        currentProject.taskArray.push(newTask);
+        projectArray[currentIndex] = currentProject;
+        updateLocalStorage();
     }
     currentProject.taskArray.forEach(task => {
-        const newTask = createTaskDiv(task.name, task.description, task.dueDate);
-        if (task.completed == false) {
+        if (task.completed === false) {
+            const newTask = createTaskDiv(task.name, task.description, task.dueDate);
             todayDiv.appendChild(newTask);
         }
         else {
+            const newTask = createCompletedDiv(task.name);
             const completedDiv = document.querySelector(".completed");
             completedDiv.appendChild(newTask);
         }
