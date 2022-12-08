@@ -1,10 +1,10 @@
 export let projectArray = [];
-export let completedArray = [];
 
 export default function Project(name) {
     const taskArray = [];
+    const completedArray = [];
     const note = "";
-    return { name, taskArray, note };
+    return { name, taskArray, completedArray, note };
 }
 
 export const updateLocalStorage = () => {

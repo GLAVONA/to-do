@@ -1,7 +1,7 @@
 import datefns, { endOfMonth, endOfToday, endOfTomorrow, endOfWeek, startOfWeek } from 'date-fns';
 import './style.css';
 import Project, { addTaskToProject, createNewProject, projectArray, removeTaskFromProject, updateLocalStorage, updateProjectArray } from './project.js';
-import Task, { checkTask, createNewTask, markTaskComplete, unmarkTaskComplete } from './task.js';
+import Task, { checkTask, createNewTask, deleteTask, markTaskComplete, unmarkTaskComplete } from './task.js';
 import editIcon from './edit.png';
 import { isTomorrow } from 'date-fns/esm';
 import { deAT } from 'date-fns/locale';
@@ -164,7 +164,9 @@ const newTaskButton = document.querySelector(".new-task-button");
 
 newTaskButton.addEventListener("click", () => {
     updateProjectArray();
-    currentProject.taskArray.push(createNewTask());
+    const newTask = createNewTask();
+    newTask.name = "New Task";
+    currentProject.taskArray.push(newTask);
     projectArray[currentIndex] = currentProject;
     updateLocalStorage();
     clearTasks();
@@ -191,16 +193,20 @@ function createTaskDiv(name, description, dueDate) {
     const completeButton = document.createElement("button");
     completeButton.classList.add("complete-button");
     completeButton.textContent = "Complete";
-    completeButton.addEventListener("click",()=>{
+    completeButton.addEventListener("click", () => {
         markTaskComplete(completeButton);
-        console.log(currentProject.taskArray);
         clearTasks();
         renderTasks();
     })
     const taskDeleteButton = document.createElement("button");
     taskDeleteButton.classList.add("delete-task-button");
     taskDeleteButton.textContent = "Delete";
-    
+    taskDeleteButton.addEventListener("click",()=>{
+        deleteTask(taskDeleteButton);
+        clearTasks();
+        renderTasks();
+    })
+
     taskWrapperDiv.appendChild(taskNameDiv);
     taskWrapperDiv.appendChild(taskDescDiv);
     taskWrapperDiv.appendChild(taskDueDateDiv);
@@ -221,15 +227,20 @@ function createCompletedDiv(name) {
     const uncompleteButton = document.createElement("button");
     uncompleteButton.classList.add("completed-complete-button");
     uncompleteButton.textContent = "Complete";
-    uncompleteButton.addEventListener("click",()=>{
-        unmarkTaskComplete(uncompleteButton);        
+    uncompleteButton.addEventListener("click", () => {
+        unmarkTaskComplete(uncompleteButton);
         clearTasks();
         renderTasks();
     })
     const taskDeleteButton = document.createElement("button");
     taskDeleteButton.classList.add("completed-delete-task-button");
     taskDeleteButton.textContent = "Delete";
-    
+    taskDeleteButton.addEventListener("click",()=>{
+        deleteTask(taskDeleteButton);
+        clearTasks();
+        renderTasks();
+    })
+
     taskWrapperDiv.appendChild(taskNameDiv);
     taskWrapperDiv.appendChild(uncompleteButton);
     taskWrapperDiv.appendChild(taskDeleteButton);
@@ -240,11 +251,11 @@ function createCompletedDiv(name) {
 
 function clearTasks() {
     todayDiv.innerHTML = "";
-    completedDiv.innerHTML="";
+    completedDiv.innerHTML = "";
 }
 
 function renderTasks() {
-    if (currentProject.taskArray.length < 1) {
+    if (currentProject.taskArray.length < 1 && currentProject.completedArray.length < 1) {
         const newTask = createNewTask();
         newTask.name = "New Task"
         currentProject.taskArray.push(newTask);
@@ -252,15 +263,14 @@ function renderTasks() {
         updateLocalStorage();
     }
     currentProject.taskArray.forEach(task => {
-        if (task.completed === false) {
-            const newTask = createTaskDiv(task.name, task.description, task.dueDate);
-            todayDiv.appendChild(newTask);
-        }
-        else {
-            const newTask = createCompletedDiv(task.name);
-            const completedDiv = document.querySelector(".completed");
-            completedDiv.appendChild(newTask);
-        }
+
+        const newTask = createTaskDiv(task.name, task.description, task.dueDate);
+        todayDiv.appendChild(newTask);
+
+    })
+    currentProject.completedArray.forEach(task => {
+        const newTask = createCompletedDiv(task.name);
+        completedDiv.appendChild(newTask);
     })
 }
 
