@@ -1,8 +1,11 @@
-import datefns, { endOfMonth, endOfToday } from 'date-fns';
+import datefns, { endOfMonth, endOfToday, endOfTomorrow, endOfWeek, startOfWeek } from 'date-fns';
 import './style.css';
 import Project, { addTaskToProject, createNewProject, projectArray, removeTaskFromProject, updateLocalStorage, updateProjectArray } from './project.js';
 import Task, { checkTask, createNewTask } from './task.js';
 import editIcon from './edit.png';
+import { isTomorrow } from 'date-fns/esm';
+import { deAT } from 'date-fns/locale';
+
 
 // Declare the Projectlist Div and "Add Project" button.
 const projectList = document.querySelector(".projects-list");
@@ -12,7 +15,8 @@ const addProjectButton = document.querySelector(".add-project");
 const projectCollapsible = document.querySelector(".projects-collapse");
 projectCollapsible.addEventListener("click", toggleProjects);
 
-updateProjectArray();
+const todayDiv = document.querySelector(".task-list-content");
+
 
 // Current active project
 export let currentIndex = 0;
@@ -29,7 +33,6 @@ notesAreaDiv.addEventListener("input", () => {
 let projectDivs = document.querySelectorAll(".project");
 
 // Renders the projects list for the first time.
-updateProjectArray();
 
 // Toggles projects underneath the Projects collapsible.
 function toggleProjects() {
@@ -41,9 +44,7 @@ function toggleProjects() {
 // Renders the projects list for the first time.
 updateProjectArray();
 renderProjectsList();
-renderProject();
 
-let selectedProject = "";
 
 // Renders the projects list and delete buttons, and handles logic.
 function renderProjectsList() {
@@ -103,6 +104,7 @@ function renderProjectsList() {
             updateLocalStorage();
         })
         updateLocalStorage();
+        updateProjectArray();
         projectWrapper.appendChild(projectDiv);
         projectWrapper.appendChild(editButton);
         projectWrapper.appendChild(deleteButton);
@@ -120,9 +122,11 @@ function renderProjectsList() {
     projectDivs = document.querySelectorAll(".project");
     projectDivs.forEach(proj => proj.addEventListener("click", () => {
         switchCurrentProject(proj);
+        clearTasks();
+        renderTasks();
     }))
-    switchCurrentProject(projectList.lastChild.firstChild);
 }
+switchCurrentProject(projectList.lastChild.firstChild);
 
 // Resets the Projects List html (clears it)
 function clearProjectsList() {
@@ -137,30 +141,94 @@ addProjectButton.addEventListener("click", () => {
     currentProject = createNewProject();
     renderProjectsList()
     switchCurrentProject(projectList.lastChild.firstChild);
-    updateLocalStorage();
 })
 
 // Render notes and tasks of the selected project
-function renderProject() {
+function renderNotes() {
     notesAreaDiv.value = currentProject.note;
 }
 
 function switchCurrentProject(proj) {
     currentIndex = Array.from(proj.parentElement.parentElement.children).indexOf(proj.parentElement);
     currentProject = projectArray[currentIndex];
+
     projectDivs.forEach(proj => proj.classList.remove("active"));
     proj.classList.add("active");
-    renderProject();
+    renderNotes();
+    clearTasks();
+    renderTasks();
 }
 
-const newTaskButton = document.querySelector(".today > .new-task-button");
+const newTaskButton = document.querySelector(".new-task-button");
 
-newTaskButton.addEventListener("click",()=>{
-    createNewTask();
-    console.log(projectArray);
+newTaskButton.addEventListener("click", () => {
+    updateProjectArray();
+    currentProject.taskArray.push(createNewTask());
+    projectArray[currentIndex] = currentProject;
     updateLocalStorage();
+    clearTasks();
+    renderTasks();
+    console.log(projectArray);
+
 })
 
-function renderTasks(){
+
+
+let currentDeadline = endOfToday();
+
+function createTaskDiv(name, description, dueDate) {
+
+    const taskWrapperDiv = document.createElement("div");
+    taskWrapperDiv.classList.add("task-wrapper");
+    const taskNameDiv = document.createElement("div");
+    taskNameDiv.classList.add("task-name");
+    taskNameDiv.textContent = name;
+    const taskDescDiv = document.createElement("div");
+    taskDescDiv.classList.add("task-desc");
+    taskDescDiv.textContent = description;
+    const taskDueDateDiv = document.createElement("div");
+    taskDueDateDiv.classList.add("task-duedate");
+    taskDueDateDiv.textContent = dueDate;
+    const completeButton = document.createElement("button");
+    completeButton.classList.add("complete-button");
+    completeButton.textContent = "Complete";
+    const taskDeleteButton = document.createElement("button");
+    taskDeleteButton.classList.add("delete-task-button");
+    taskDeleteButton.textContent = "Delete";
     
+    taskWrapperDiv.appendChild(taskNameDiv);
+    taskWrapperDiv.appendChild(taskDescDiv);
+    taskWrapperDiv.appendChild(taskDueDateDiv);
+    taskWrapperDiv.appendChild(completeButton);
+    taskWrapperDiv.appendChild(taskDeleteButton);
+
+    return taskWrapperDiv;
 }
+
+function clearTasks() {
+    todayDiv.innerHTML = "";
+}
+
+function renderTasks() {
+    if (currentProject.taskArray.length < 1) {
+        currentProject.taskArray.push(createNewTask());
+    }
+    currentProject.taskArray.forEach(task => {
+        const newTask = createTaskDiv(task.name, task.description, task.dueDate);
+        if (task.completed == false) {
+            todayDiv.appendChild(newTask);
+        }
+        else {
+            const completedDiv = document.querySelector(".completed");
+            completedDiv.appendChild(newTask);
+        }
+    })
+}
+
+//REMOVE THIS WHEN DONE *** v
+const deleteLocalStorageButton = document.querySelector(".delete-local-storage")
+
+deleteLocalStorageButton.addEventListener("click", () => {
+    localStorage.clear();
+})
+//*** ^

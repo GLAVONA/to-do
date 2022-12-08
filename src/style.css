@@ -186,6 +186,7 @@ br {
 .today-wrapper {
     flex: 1;
     padding-top: 1rem;
+    height: 100%;
 }
 
 .completed-wrapper {
@@ -202,11 +203,6 @@ br {
     text-align: center;
 }
 
-.tasks>.today {
-    flex: 1;
-    display: flex;
-
-}
 
 .tasks>.completed {
     flex: 1;
@@ -238,4 +234,21 @@ br {
     background-size: 110% auto;
     border: none;
     outline: none;
+}
+
+.new-task-button{
+    margin: 1rem;
+}
+
+.task-list-content{
+    display: grid;
+    padding-top: 1rem;
+    grid-template-columns: 1fr 1fr;
+    gap:1rem;
+    overflow: auto;
+}
+
+.task-wrapper{
+    border: 1px solid black;
+    height: 4em;
 }

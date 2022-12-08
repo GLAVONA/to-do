@@ -1,9 +1,9 @@
-import { endOfToday } from "date-fns";
+import { endOfToday, format } from "date-fns";
 import *  as Project from './project.js';
 import * as Index from './index.js';
 
-export default function Task(title, description, dueDate, priority, completed) {
-    return { title, description, dueDate, priority, completed }
+export default function Task(name, description, dueDate, priority, completed) {
+    return { name, description, dueDate, priority, completed }
 }
 
 export const checkTask = (task) => {
@@ -15,8 +15,6 @@ export const uncheckTask = (task) => {
 }
 
 export function createNewTask(){
-    const newTask = Task("","",endOfToday,"",false);
-    const currentProjectIndex = Index.currentIndex;
-    Project.projectArray[currentProjectIndex].taskArray.push(newTask);
+    const newTask = Task("","",format(endOfToday(),"dd-MM-yyyy"),"",false);
     return newTask;
 }
