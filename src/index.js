@@ -226,7 +226,7 @@ function createCompletedDiv(name) {
     taskNameDiv.textContent = name;
     const uncompleteButton = document.createElement("button");
     uncompleteButton.classList.add("completed-complete-button");
-    uncompleteButton.textContent = "Complete";
+    uncompleteButton.textContent = "Undo";
     uncompleteButton.addEventListener("click", () => {
         unmarkTaskComplete(uncompleteButton);
         clearTasks();
