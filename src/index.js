@@ -262,6 +262,9 @@ function renderTasks() {
         projectArray[currentIndex] = currentProject;
         updateLocalStorage();
     }
+
+    currentProject.taskArray.sort((t1,t2)=>(t1.dueDate>t2.dueDate)? 1 : (t1.dueDate<t2.dueDate)? -1: 0);
+
     currentProject.taskArray.forEach(task => {
 
         const newTask = createTaskDiv(task.name, task.description, task.dueDate);
