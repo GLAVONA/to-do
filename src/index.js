@@ -203,7 +203,7 @@ function createTaskDiv(name, description, dueDate) {
     const taskDeleteButton = document.createElement("button");
     taskDeleteButton.classList.add("delete-task-button");
     taskDeleteButton.textContent = "Delete";
-    taskDeleteButton.addEventListener("click",()=>{
+    taskDeleteButton.addEventListener("click", () => {
         deleteTask(taskDeleteButton);
         clearTasks();
         renderTasks();
@@ -216,8 +216,17 @@ function createTaskDiv(name, description, dueDate) {
     taskWrapperDiv.appendChild(taskDescDiv);
     taskWrapperDiv.appendChild(taskDueDateDiv);
     taskWrapperDiv.appendChild(buttonsDiv);
-    
+
+    taskWrapperDiv.addEventListener("click",(e)=>{
+        const index = Array.from(e.target.parentElement.children).indexOf(e.target);
+
+    });
+
     return taskWrapperDiv;
+}
+
+function renderDialog(index){
+    
 }
 
 
@@ -239,7 +248,7 @@ function createCompletedDiv(name) {
     const taskDeleteButton = document.createElement("button");
     taskDeleteButton.classList.add("completed-delete-task-button");
     taskDeleteButton.textContent = "Delete";
-    taskDeleteButton.addEventListener("click",()=>{
+    taskDeleteButton.addEventListener("click", () => {
         deleteTask(taskDeleteButton);
         clearTasks();
         renderTasks();
@@ -267,7 +276,7 @@ function renderTasks() {
     //     updateLocalStorage();
     // }
 
-    currentProject.taskArray.sort((t1,t2)=>(t1.dueDate>t2.dueDate)? 1 : (t1.dueDate<t2.dueDate)? -1: 0);
+    currentProject.taskArray.sort((t1, t2) => (t1.dueDate > t2.dueDate) ? 1 : (t1.dueDate < t2.dueDate) ? -1 : 0);
 
     currentProject.taskArray.forEach(task => {
 
@@ -280,7 +289,6 @@ function renderTasks() {
         completedDiv.appendChild(newTask);
     })
 }
-console.log(currentProject.taskArray);
 
 //REMOVE THIS WHEN DONE *** v
 const deleteLocalStorageButton = document.querySelector(".delete-local-storage")
