@@ -7,7 +7,7 @@ export default function Task(name, description, dueDate, priority, completed) {
 }
 
 export function markTaskComplete(e) {
-    const index = Array.from(e.parentElement.parentElement.children).indexOf(e.parentElement);
+    const index = Array.from(e.parentElement.parentElement.parentElement.children).indexOf(e.parentElement.parentElement);
     Index.currentProject.taskArray[index].completed = true;
     Index.currentProject.completedArray.push(Index.currentProject.taskArray[index]);
     Index.currentProject.taskArray.splice(index, 1);
@@ -30,14 +30,15 @@ export function createNewTask() {
 }
 
 export function deleteTask(e) {
-    const index = Array.from(e.parentElement.parentElement.children).indexOf(e.parentElement);
-    if(e.parentElement.parentElement.className == "task-list-content"){
+    if(e.parentElement.parentElement.parentElement.className == "task-list-content"){
+    const index = Array.from(e.parentElement.parentElement.parentElement.children).indexOf(e.parentElement.parentElement);
         Index.currentProject.taskArray.splice(index, 1);
         console.log(Index.currentProject.taskArray);
         Project.projectArray[Index.currentIndex] = Index.currentProject;
         Project.updateLocalStorage();
     }
     else{
+    const index = Array.from(e.parentElement.parentElement.children).indexOf(e.parentElement);
         Index.currentProject.completedArray.splice(index, 1);
         console.log(Index.currentProject.completedArray);
         Project.projectArray[Index.currentIndex] = Index.currentProject;

@@ -190,6 +190,8 @@ function createTaskDiv(name, description, dueDate) {
     const taskDueDateDiv = document.createElement("div");
     taskDueDateDiv.classList.add("task-duedate");
     taskDueDateDiv.textContent = dueDate;
+    const buttonsDiv = document.createElement("div");
+    buttonsDiv.classList.add("buttons-div");
     const completeButton = document.createElement("button");
     completeButton.classList.add("complete-button");
     completeButton.textContent = "Complete";
@@ -207,12 +209,14 @@ function createTaskDiv(name, description, dueDate) {
         renderTasks();
     })
 
+    buttonsDiv.appendChild(completeButton);
+    buttonsDiv.appendChild(taskDeleteButton);
+
     taskWrapperDiv.appendChild(taskNameDiv);
     taskWrapperDiv.appendChild(taskDescDiv);
     taskWrapperDiv.appendChild(taskDueDateDiv);
-    taskWrapperDiv.appendChild(completeButton);
-    taskWrapperDiv.appendChild(taskDeleteButton);
-
+    taskWrapperDiv.appendChild(buttonsDiv);
+    
     return taskWrapperDiv;
 }
 
@@ -255,13 +259,13 @@ function clearTasks() {
 }
 
 function renderTasks() {
-    if (currentProject.taskArray.length < 1 && currentProject.completedArray.length < 1) {
-        const newTask = createNewTask();
-        newTask.name = "New Task"
-        currentProject.taskArray.push(newTask);
-        projectArray[currentIndex] = currentProject;
-        updateLocalStorage();
-    }
+    // if (currentProject.taskArray.length < 1 && currentProject.completedArray.length < 1) {
+    //     const newTask = createNewTask();
+    //     newTask.name = "New Task"
+    //     currentProject.taskArray.push(newTask);
+    //     projectArray[currentIndex] = currentProject;
+    //     updateLocalStorage();
+    // }
 
     currentProject.taskArray.sort((t1,t2)=>(t1.dueDate>t2.dueDate)? 1 : (t1.dueDate<t2.dueDate)? -1: 0);
 
@@ -276,6 +280,7 @@ function renderTasks() {
         completedDiv.appendChild(newTask);
     })
 }
+console.log(currentProject.taskArray);
 
 //REMOVE THIS WHEN DONE *** v
 const deleteLocalStorageButton = document.querySelector(".delete-local-storage")

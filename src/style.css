@@ -243,7 +243,7 @@ br {
 .task-list-content{
     display: grid;
     padding-top: 1rem;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1fr;
     gap:1rem;
     overflow: auto;
 }
@@ -251,4 +251,31 @@ br {
 .task-wrapper{
     border: 1px solid black;
     height: 4em;
+    display: flex;
+    padding:.3rem;
+}
+
+.task-wrapper:hover{
+    border: 1px solid rgb(0,0,0,0.3);
+}
+
+.task-name{
+    flex:1;
+    align-self: center;
+}
+
+.task-desc{
+    flex:1;
+    align-self: center;
+}
+
+.task-duedate{
+    align-self: center;
+    margin-right: 1rem;
+}
+
+.buttons-div{
+    display: grid;
+    grid-template-rows: 1fr 1fr;
+    row-gap: .3rem;
 }
