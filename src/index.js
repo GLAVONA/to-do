@@ -218,6 +218,9 @@ function createTaskDiv(name, description, dueDate) {
     taskWrapperDiv.appendChild(buttonsDiv);
 
     taskWrapperDiv.addEventListener("click",(e)=>{
+        if(e.target===buttonsDiv){
+            return;
+        }
         const index = Array.from(e.target.parentElement.children).indexOf(e.target);
         renderDialog(index);
     });
@@ -251,8 +254,8 @@ function renderDialog(index){
     modalContainer.appendChild(modalDiv);
     body.appendChild(modalContainer);
     modalContainer.style.display="flex";
-    window.addEventListener("mousedown",(e)=>{
-        if(e.target == modalContainer){
+
+    const saveDialogInfo = ()=>{
             modalContainer.style.display = "none";
             currentProject.taskArray[index].name = taskNameDiv.value;
             currentProject.taskArray[index].description = taskDescDiv.value;
@@ -261,6 +264,17 @@ function renderDialog(index){
             updateLocalStorage();
             clearTasks();
             renderTasks();
+    }
+
+    window.addEventListener("mousedown",(e)=>{
+        if(e.target == modalContainer){
+        saveDialogInfo();
+    }
+    })
+
+    window.addEventListener("keypress",(e)=>{
+        if(e.key === "Enter" && modalContainer.style.display !=="none"){
+            saveDialogInfo();
         }
     })
 }

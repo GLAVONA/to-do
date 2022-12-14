@@ -262,7 +262,8 @@ br {
 .task-name{
     align-self: center;
     max-width: 5rem;
-    word-wrap: normal;
+    overflow-wrap: break-word;
+    padding: 10px;
 
 }
 
