@@ -1,4 +1,4 @@
-import datefns, { endOfMonth, endOfToday, endOfTomorrow, endOfWeek, format, parse, parseISO, startOfWeek, toDate } from 'date-fns';
+import datefns, { endOfMonth, endOfToday, endOfTomorrow, endOfWeek, format, parse, parseISO, startOfDay, startOfWeek, toDate } from 'date-fns';
 import './style.css';
 import Project, { addTaskToProject, createNewProject, projectArray, removeTaskFromProject, updateLocalStorage, updateProjectArray } from './project.js';
 import Task, { checkTask, createNewTask, deleteTask, markTaskComplete, unmarkTaskComplete } from './task.js';
@@ -374,7 +374,7 @@ function renderTasks() {
                 todayDiv.appendChild(newTask);
                 break;
             case "today":
-                if (task.dueDate <= endOfToday(new Date())) {
+                if (task.dueDate <= endOfToday(new Date()) && task.dueDate >= startOfDay(new Date())) {
                     const newTask = createTaskDiv(task.name, task.description, task.dueDate);
                     todayDiv.appendChild(newTask);
                 }
