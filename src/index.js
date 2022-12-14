@@ -236,13 +236,13 @@ function renderDialog(index){
 
     const taskNameDiv = document.createElement("input");
     taskNameDiv.classList.add("modal-task-name");
-    taskNameDiv.textContent = currentProject.taskArray[index].name;
+    taskNameDiv.value = currentProject.taskArray[index].name;
     const taskDescDiv = document.createElement("input");
     taskDescDiv.classList.add("modal-task-desc");
-    taskDescDiv.textContent = currentProject.taskArray[index].description;
+    taskDescDiv.value = currentProject.taskArray[index].description;
     const taskDueDateDiv = document.createElement("input");
     taskDueDateDiv.classList.add("modal-task-duedate");
-    taskDueDateDiv.textContent = currentProject.taskArray[index].dueDate;
+    taskDueDateDiv.value = currentProject.taskArray[index].dueDate;
     
     modalDiv.appendChild(taskNameDiv);
     modalDiv.appendChild(taskDescDiv);
@@ -250,6 +250,19 @@ function renderDialog(index){
 
     modalContainer.appendChild(modalDiv);
     body.appendChild(modalContainer);
+    modalContainer.style.display="flex";
+    window.addEventListener("mousedown",(e)=>{
+        if(e.target == modalContainer){
+            modalContainer.style.display = "none";
+            currentProject.taskArray[index].name = taskNameDiv.value;
+            currentProject.taskArray[index].description = taskDescDiv.value;
+            currentProject.taskArray[index].dueDate = taskDueDateDiv.value;
+            projectArray[currentIndex] = currentProject;
+            updateLocalStorage();
+            clearTasks();
+            renderTasks();
+        }
+    })
 }
 
 
