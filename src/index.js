@@ -410,7 +410,7 @@ function renderTasks() {
                 break;
         }
     })
-    if(currentProject.completedArray.length>0){
+    if(currentProject.completedArray !== undefined && currentProject.completedArray.length>0){
     currentProject.completedArray.forEach(task => {
         const newTask = createCompletedDiv(task.name);
         completedDiv.appendChild(newTask);
