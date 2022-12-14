@@ -253,6 +253,7 @@ br {
     height: 4em;
     display: flex;
     padding:.3rem;
+    gap: .5rem;
 }
 
 .task-wrapper:hover{
@@ -264,17 +265,18 @@ br {
     max-width: 5rem;
     overflow-wrap: break-word;
     padding: 10px;
-
 }
 
 .task-desc{
     flex:1;
     align-self: center;
+    overflow-wrap: break-word;
+    width: 25rem;
 }
 
 .task-duedate{
     align-self: center;
-    margin-right: 1rem;
+    overflow-wrap: break-word;
 }
 
 .buttons-div{
@@ -298,6 +300,17 @@ br {
     justify-content: center;
 }
 
+
 .modal-div{
-    background-color: white;
+    display: flex;
+    flex-direction: column;
+    width: clamp(5rem, 10rem, 30rem);
+}
+
+.modal-div>label{
+    color: white;
+}
+
+.modal-div>input{
+    margin-bottom: .5rem;
 }

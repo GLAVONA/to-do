@@ -25,7 +25,8 @@ export function unmarkTaskComplete(e) {
 }
 
 export function createNewTask() {
-    const newTask = Task("", "", format(endOfToday(), "dd-MM-yyyy"), "", false);
+    const today = new Date(endOfToday());
+    const newTask = Task("", "", today, "", false);
     return newTask;
 }
 

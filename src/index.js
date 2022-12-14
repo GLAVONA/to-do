@@ -29,12 +29,13 @@ const thisWeekPeriodDiv = document.querySelector(".time-period>.this-week");
 thisWeekPeriodDiv.addEventListener("click", (e) => { changeCurrentPeriod(e) });
 const thisMonthPeriodDiv = document.querySelector(".time-period>.this-month");
 thisMonthPeriodDiv.addEventListener("click", (e) => { changeCurrentPeriod(e) });
+const allTasks = document.querySelector(".time-period>.all");
+allTasks.addEventListener("click", (e) => { changeCurrentPeriod(e) });
 
-let currentPeriod = "this week";
+let currentPeriod = "all";
 
 const changeCurrentPeriod = (e) => {
     currentPeriod = e.target.firstChild.textContent;
-    console.log(currentPeriod);
     clearTasks();
     renderTasks();
 }
@@ -188,10 +189,6 @@ newTaskButton.addEventListener("click", () => {
     renderTasks();
 })
 
-
-
-let currentDeadline = endOfToday();
-
 function createTaskDiv(name, description, dueDate) {
 
     const taskWrapperDiv = document.createElement("div");
@@ -204,7 +201,7 @@ function createTaskDiv(name, description, dueDate) {
     taskDescDiv.textContent = description;
     const taskDueDateDiv = document.createElement("div");
     taskDueDateDiv.classList.add("task-duedate");
-    taskDueDateDiv.textContent = dueDate;
+    taskDueDateDiv.textContent = format(new Date(dueDate), 'dd-MM-yyyy');
     const buttonsDiv = document.createElement("div");
     buttonsDiv.classList.add("buttons-div");
     const completeButton = document.createElement("button");
@@ -255,19 +252,37 @@ function renderDialog(index) {
 
     const body = document.querySelector("body");
 
+    const taskNameLabel = document.createElement("label");
+    taskNameLabel.htmlFor = "name";
+    taskNameLabel.innerHTML = "Task name:";
     const taskNameDiv = document.createElement("input");
     taskNameDiv.classList.add("modal-task-name");
+    taskNameDiv.name = "name";
     taskNameDiv.value = currentProject.taskArray[index].name;
+    const taskDescLabel = document.createElement("label");
+    taskDescLabel.htmlFor = "desc";
+    taskDescLabel.innerHTML = "Description:"
     const taskDescDiv = document.createElement("input");
     taskDescDiv.classList.add("modal-task-desc");
+    taskDescDiv.name = "desc";
     taskDescDiv.value = currentProject.taskArray[index].description;
+    const taskDueDateLabel = document.createElement("label");
+    taskDueDateLabel.htmlFor = "date";
+    taskDueDateLabel.innerHTML = "Due date:"
     const taskDueDateDiv = document.createElement("input");
     taskDueDateDiv.type = "date";
+    taskDueDateDiv.name = "date"
     taskDueDateDiv.classList.add("modal-task-duedate");
-    taskDueDateDiv.value = currentProject.taskArray[index].dueDate
+    taskDueDateDiv.value = currentProject.taskArray[index].dueDate;
 
+    const helpText = document.createElement("div");
+    helpText.classList.add("help-text");
+
+    modalDiv.appendChild(taskNameLabel);
     modalDiv.appendChild(taskNameDiv);
+    modalDiv.appendChild(taskDescLabel);
     modalDiv.appendChild(taskDescDiv);
+    modalDiv.appendChild(taskDueDateLabel);
     modalDiv.appendChild(taskDueDateDiv);
 
     modalContainer.appendChild(modalDiv);
@@ -278,7 +293,9 @@ function renderDialog(index) {
         modalContainer.style.display = "none";
         currentProject.taskArray[index].name = taskNameDiv.value;
         currentProject.taskArray[index].description = taskDescDiv.value;
-        currentProject.taskArray[index].dueDate = format(new Date(taskDueDateDiv.value), 'dd-MM-yyyy');
+        if(taskDueDateDiv.value!==""){
+        currentProject.taskArray[index].dueDate = new Date(taskDueDateDiv.value);
+        }
         projectArray[currentIndex] = currentProject;
         updateLocalStorage();
         clearTasks();
@@ -352,20 +369,24 @@ function renderTasks() {
     currentProject.taskArray.sort((t1, t2) => (t1.dueDate > t2.dueDate) ? 1 : (t1.dueDate < t2.dueDate) ? -1 : 0);
     currentProject.taskArray.forEach(task => {
         switch (currentPeriod.toLowerCase()) {
+            case "all":
+                const newTask = createTaskDiv(task.name, task.description, task.dueDate);
+                todayDiv.appendChild(newTask);
+                break;
             case "today":
-                if (task.dueDate <= format(endOfToday(), 'dd-MM-yyyy')) {
+                if (task.dueDate <= endOfToday(new Date())) {
                     const newTask = createTaskDiv(task.name, task.description, task.dueDate);
                     todayDiv.appendChild(newTask);
                 }
                 break;
             case "this week":
-                if (task.dueDate <= format(endOfWeek(new Date()), 'dd-MM-yyyy') && task.dueDate >= format(startOfWeek(new Date()), 'dd-MM-yyyy')) {
+                if (task.dueDate <= endOfWeek(new Date()) && task.dueDate >= startOfWeek(new Date())) {
                     const newTask = createTaskDiv(task.name, task.description, task.dueDate);
                     todayDiv.appendChild(newTask);
                 }
                 break;
             case "this month":
-                if (task.dueDate <= format(endOfMonth(new Date()), 'dd-MM-yyyy') && task.dueDate >= format(startOfWeek(new Date()), 'dd-MM-yyyy')) {
+                if (task.dueDate <= endOfMonth(new Date()) && task.dueDate >= startOfWeek(new Date())) {
                     const newTask = createTaskDiv(task.name, task.description, task.dueDate);
                     todayDiv.appendChild(newTask);
                 }
