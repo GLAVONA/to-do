@@ -218,7 +218,7 @@ function createTaskDiv(name, description, dueDate) {
     taskWrapperDiv.appendChild(buttonsDiv);
 
     taskWrapperDiv.addEventListener("click",(e)=>{
-        if(e.target===buttonsDiv){
+        if(e.target===completeButton || e.target === taskDeleteButton){
             return;
         }
         const index = Array.from(e.target.parentElement.children).indexOf(e.target);
