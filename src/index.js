@@ -89,7 +89,7 @@ function renderProjectsList() {
 
         const deleteButton = document.createElement("button");
         deleteButton.setAttribute("type", "button");
-        deleteButton.textContent = "X";
+        deleteButton.innerHTML = "&times;";
         deleteButton.addEventListener("click", () => {
             const index = Array.from(projectWrapper.parentElement.children).indexOf(projectWrapper);
             projectArray.splice(index, 1);
@@ -219,14 +219,37 @@ function createTaskDiv(name, description, dueDate) {
 
     taskWrapperDiv.addEventListener("click",(e)=>{
         const index = Array.from(e.target.parentElement.children).indexOf(e.target);
-
+        renderDialog(index);
     });
 
     return taskWrapperDiv;
 }
 
 function renderDialog(index){
+    const modalContainer = document.createElement("div");
+    modalContainer.classList.add("modal-container");
     
+    const modalDiv = document.createElement("modal");
+    modalDiv.classList.add("modal-div");
+
+    const body = document.querySelector("body");
+
+    const taskNameDiv = document.createElement("input");
+    taskNameDiv.classList.add("modal-task-name");
+    taskNameDiv.textContent = currentProject.taskArray[index].name;
+    const taskDescDiv = document.createElement("input");
+    taskDescDiv.classList.add("modal-task-desc");
+    taskDescDiv.textContent = currentProject.taskArray[index].description;
+    const taskDueDateDiv = document.createElement("input");
+    taskDueDateDiv.classList.add("modal-task-duedate");
+    taskDueDateDiv.textContent = currentProject.taskArray[index].dueDate;
+    
+    modalDiv.appendChild(taskNameDiv);
+    modalDiv.appendChild(taskDescDiv);
+    modalDiv.appendChild(taskDueDateDiv);
+
+    modalContainer.appendChild(modalDiv);
+    body.appendChild(modalContainer);
 }
 
 
