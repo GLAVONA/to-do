@@ -1,4 +1,4 @@
-import datefns, { endOfMonth, endOfToday, endOfTomorrow, endOfWeek, startOfWeek } from 'date-fns';
+import datefns, { endOfMonth, endOfToday, endOfTomorrow, endOfWeek, format, parse, parseISO, startOfWeek, toDate } from 'date-fns';
 import './style.css';
 import Project, { addTaskToProject, createNewProject, projectArray, removeTaskFromProject, updateLocalStorage, updateProjectArray } from './project.js';
 import Task, { checkTask, createNewTask, deleteTask, markTaskComplete, unmarkTaskComplete } from './task.js';
@@ -22,8 +22,22 @@ const completedDiv = document.querySelector(".completed-wrapper > .completed");
 // Current active project
 export let currentIndex = 0;
 export let currentProject = projectArray[currentIndex];
-let currentPeriod = "today";
 
+const todayPeriodDiv = document.querySelector(".time-period>.today");
+todayPeriodDiv.addEventListener("click", (e) => { changeCurrentPeriod(e) });
+const thisWeekPeriodDiv = document.querySelector(".time-period>.this-week");
+thisWeekPeriodDiv.addEventListener("click", (e) => { changeCurrentPeriod(e) });
+const thisMonthPeriodDiv = document.querySelector(".time-period>.this-month");
+thisMonthPeriodDiv.addEventListener("click", (e) => { changeCurrentPeriod(e) });
+
+let currentPeriod = "this week";
+
+const changeCurrentPeriod = (e) => {
+    currentPeriod = e.target.firstChild.textContent;
+    console.log(currentPeriod);
+    clearTasks();
+    renderTasks();
+}
 // Sets the Currentproject's note variable to the input of the user in the notes textarea.
 const notesAreaDiv = document.getElementById("notes-textarea");
 notesAreaDiv.addEventListener("input", () => {
@@ -264,7 +278,7 @@ function renderDialog(index) {
         modalContainer.style.display = "none";
         currentProject.taskArray[index].name = taskNameDiv.value;
         currentProject.taskArray[index].description = taskDescDiv.value;
-        currentProject.taskArray[index].dueDate = taskDueDateDiv.value;
+        currentProject.taskArray[index].dueDate = format(new Date(taskDueDateDiv.value), 'dd-MM-yyyy');
         projectArray[currentIndex] = currentProject;
         updateLocalStorage();
         clearTasks();
@@ -339,10 +353,23 @@ function renderTasks() {
     currentProject.taskArray.forEach(task => {
         switch (currentPeriod.toLowerCase()) {
             case "today":
-                // if (task.dueDate <= endOfToday()) {
+                if (task.dueDate <= format(endOfToday(), 'dd-MM-yyyy')) {
                     const newTask = createTaskDiv(task.name, task.description, task.dueDate);
                     todayDiv.appendChild(newTask);
-                // }
+                }
+                break;
+            case "this week":
+                if (task.dueDate <= format(endOfWeek(new Date()), 'dd-MM-yyyy') && task.dueDate >= format(startOfWeek(new Date()), 'dd-MM-yyyy')) {
+                    const newTask = createTaskDiv(task.name, task.description, task.dueDate);
+                    todayDiv.appendChild(newTask);
+                }
+                break;
+            case "this month":
+                if (task.dueDate <= format(endOfMonth(new Date()), 'dd-MM-yyyy') && task.dueDate >= format(startOfWeek(new Date()), 'dd-MM-yyyy')) {
+                    const newTask = createTaskDiv(task.name, task.description, task.dueDate);
+                    todayDiv.appendChild(newTask);
+                }
+                break;
         }
     })
     currentProject.completedArray.forEach(task => {
