@@ -34,14 +34,12 @@ export function deleteTask(e) {
     if (e.parentElement.parentElement.parentElement.className == "task-list-content") {
         const index = Array.from(e.parentElement.parentElement.parentElement.children).indexOf(e.parentElement.parentElement);
         Index.currentProject.taskArray.splice(index, 1);
-        console.log(Index.currentProject.taskArray);
         Project.projectArray[Index.currentIndex] = Index.currentProject;
         Project.updateLocalStorage();
     }
     else {
         const index = Array.from(e.parentElement.parentElement.children).indexOf(e.parentElement);
         Index.currentProject.completedArray.splice(index, 1);
-        console.log(Index.currentProject.completedArray);
         Project.projectArray[Index.currentIndex] = Index.currentProject;
         Project.updateLocalStorage();
     }
