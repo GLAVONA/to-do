@@ -19,6 +19,9 @@ const todayDiv = document.querySelector(".task-list-content");
 const completedDiv = document.querySelector(".completed-wrapper > .completed");
 
 
+const todayHeader = document.querySelector(".today-header");
+
+
 // Current active project
 export let currentIndex = 0;
 export let currentProject = projectArray[currentIndex];
@@ -36,6 +39,20 @@ let currentPeriod = "all";
 
 const changeCurrentPeriod = (e) => {
     currentPeriod = e.target.firstChild.textContent;
+    switch (currentPeriod.toLowerCase()) {
+        case "all":
+            todayHeader.textContent = "All Tasks:"
+            break;
+        case "today":
+            todayHeader.textContent = "Today's Tasks:"
+            break;
+        case "this week":
+            todayHeader.textContent = "This Week's Tasks:"
+            break;
+        case "this month":
+            todayHeader.textContent = "This Month's Tasks:"
+            break;
+    }
     clearTasks();
     renderTasks();
 }
