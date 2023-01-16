@@ -417,10 +417,66 @@ function renderTasks() {
     })}
 }
 
-//REMOVE THIS WHEN DONE *** v
-const deleteLocalStorageButton = document.querySelector(".delete-local-storage")
+const signInDiv = document.createElement("div");
+signInDiv.classList.add("sign-in-div");
+signInDiv.classList.add("sign");
+const email = document.createElement("input");
+email.setAttribute("placeholder","Email");
+email.className=("sign")
+const password = document.createElement("input");
+password.setAttribute("placeholder","Password");
+password.className=("sign")
+const confPassword = document.createElement("input");
+confPassword.setAttribute("placeholder","Confirm Password");
+confPassword.className=("sign")
 
-deleteLocalStorageButton.addEventListener("click", () => {
-    localStorage.clear();
+const registerButton = document.createElement("button");
+registerButton.id = "register-button";
+registerButton.textContent = "Register";
+
+signInDiv.appendChild(email);
+signInDiv.appendChild(password);
+signInDiv.appendChild(confPassword);
+signInDiv.appendChild(registerButton);
+
+const signInContainer = document.createElement("div");
+signInContainer.classList.add("sign-in-container");
+signInContainer.appendChild(signInDiv);
+signInContainer.style.display = "none";
+
+const mainContainerDiv = document.querySelector(".main-container");
+mainContainerDiv.appendChild(signInContainer);
+
+const toggleSignInDiv = ()=>{
+    if(signInContainer.style.display ==="none"){
+        signInContainer.style.display="flex";
+    }
+    else{
+        signInContainer.style.display="none";
+    }
+}
+
+signInContainer.addEventListener("click",(e)=>{
+    if(!e.target.classList.contains("sign")){
+        toggleSignInDiv();
+    }
+    else{
+        return
+    }
+
 })
+
+
+const signInButton = document.getElementById("sign-in");
+
+signInButton.addEventListener("click",toggleSignInDiv);
+
+
+
+//REMOVE THIS WHEN DONE *** v
+// const deleteLocalStorageButton = document.querySelector(".delete-local-storage")
+
+// deleteLocalStorageButton.addEventListener("click", () => {
+//     localStorage.clear();
+// })
 //*** ^
