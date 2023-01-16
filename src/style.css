@@ -31,7 +31,7 @@ body {
     z-index: 1;
 }
 
-#sign-in{
+.sign-buttons{
     position: absolute;
     top:50%;
     right: 2rem;

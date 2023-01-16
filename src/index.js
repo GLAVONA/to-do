@@ -29,6 +29,13 @@ import Task, {
 import editIcon from "./edit.png";
 import { isTomorrow } from "date-fns/esm";
 import { deAT } from "date-fns/locale";
+import { auth } from "./firebase";
+import {
+  createUserWithEmailAndPassword,
+  onAuthStateChanged,
+  signInWithEmailAndPassword,
+  signOut,
+} from "firebase/auth";
 
 // Declare the Projectlist Div and "Add Project" button.
 const projectList = document.querySelector(".projects-list");
@@ -492,18 +499,53 @@ const registerEmail = document.createElement("input");
 registerEmail.setAttribute("placeholder", "Email");
 registerEmail.className = "register";
 registerEmail.id = "register-email";
+registerEmail.setAttribute("type", "email");
+registerEmail.required = true;
 const registerPassword = document.createElement("input");
 registerPassword.setAttribute("placeholder", "Password");
 registerPassword.className = "register";
 registerPassword.id = "register-password";
+registerPassword.required = true;
+registerPassword.setAttribute("type", "password");
 const registerConfPassword = document.createElement("input");
 registerConfPassword.setAttribute("placeholder", "Confirm Password");
 registerConfPassword.className = "register";
 registerConfPassword.id = "register-conf-password";
+registerConfPassword.required = true;
+registerConfPassword.setAttribute("type", "password");
 
 const registerButton = document.createElement("button");
 registerButton.id = "register-button";
+registerButton.classList.add("register");
 registerButton.textContent = "Register";
+registerButton.type = "submit";
+
+registerButton.addEventListener("click", (e) => {
+  e.preventDefault();
+  const registerUser = async () => {
+    const userCredential = await createUserWithEmailAndPassword(
+      auth,
+      registerEmail.value,
+      registerPassword.value
+    );
+    console.log("registered");
+  };
+  if (!registerEmail.checkValidity()) {
+    alert("Please enter a valid email!");
+    return;
+  } else if (registerPassword.value === "") {
+    alert("Password cannot be empty!");
+  } else if (registerPassword.value !== registerConfPassword.value) {
+    alert("Your passwords don't match!");
+    return;
+  } else {
+    try {
+      registerUser();
+    } catch (error) {
+      alert(error.message);
+    }
+  }
+});
 
 registerForm.appendChild(registerEmail);
 registerForm.appendChild(registerPassword);
@@ -515,18 +557,35 @@ signInDiv.appendChild(registerForm);
 const signInForm = document.createElement("form");
 signInForm.classList.add("sign-in");
 signInForm.id = "sign-in-form";
+signInForm.classList.add("register");
 const signInEmail = document.createElement("input");
 signInEmail.setAttribute("placeholder", "Email");
 signInEmail.className = "sign-in";
-signInEmail.id="sign-in-email";
+signInEmail.id = "sign-in-email";
+signInEmail.classList.add("register");
 const signInPassword = document.createElement("input");
 signInPassword.setAttribute("placeholder", "Password");
 signInPassword.className = "sign-in";
 signInPassword.id = "sign-in-password";
+signInPassword.classList.add("register");
 
 const signButton = document.createElement("button");
 signButton.id = "sign-in-button";
 signButton.textContent = "Sign in";
+signButton.classList.add("register");
+
+signButton.addEventListener("click", (e) => {
+  e.preventDefault();
+
+  const signInUser = async () => {
+    const userCredential = await signInWithEmailAndPassword(
+      auth,
+      signInEmail.value,
+      signInPassword.value
+      );
+    };
+    signInUser().catch((error)=>{alert(error.message)})
+});
 
 signInForm.appendChild(signInEmail);
 signInForm.appendChild(signInPassword);
@@ -559,8 +618,24 @@ signInContainer.addEventListener("click", (e) => {
 });
 
 const signInButton = document.getElementById("sign-in");
+const signOutButton = document.getElementById("sign-out");
+
+onAuthStateChanged(auth, (user) => {
+  if (user) {
+    signOutButton.style.display = "block";
+    signInButton.style.display = "none";
+    signInContainer.style.display = "none";
+
+  } else {
+    signOutButton.style.display = "none";
+    signInButton.style.display = "block";
+  }
+});
 
 signInButton.addEventListener("click", toggleSignInDiv);
+signOutButton.addEventListener("click", async () => {
+  await signOut(auth);
+});
 
 //REMOVE THIS WHEN DONE *** v
 // const deleteLocalStorageButton = document.querySelector(".delete-local-storage")
