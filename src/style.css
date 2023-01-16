@@ -335,6 +335,7 @@ br {
     height: 500px;
     background-color: rgba(0, 0, 0, 0.8);
     gap: .5rem;
+    padding: 1rem;
 }
 
 .sign-in-container{
@@ -346,6 +347,22 @@ br {
 }
 
 #register-button{
-    margin-top: 2rem;
+    margin-top: 1rem;
+    width: 200px;
+}
+
+#register-form{
+    display: flex;
+    flex-direction: column;
+}
+
+#sign-in-form{
+    margin-top: 5rem;
+    display: flex;
+    flex-direction: column;
+}
+
+#sign-in-button{
+    margin-top: 1rem;
     width: 200px;
 }
